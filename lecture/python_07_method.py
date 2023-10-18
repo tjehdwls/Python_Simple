@@ -1,0 +1,238 @@
+# 함수(method, function)
+# - 어떤일을 수행하는 코드 묶음
+# - 반복적으로 동작해야하는 일들
+
+
+# ex) 회사원 -> 매일 아침마다 보고서 작성(15줄 코드 작성)
+#     15줄의 코드 -> 함수로 정의(1회) -> 매일 함수 호출
+
+# ** 함수 개발 가이드 라인 **
+#  1.함수 이름 및 내용 + 함수이름에 함수의 역할과 의도 명확히 드러낼것 + 함수내용은 가능하면 짧게 작성
+#    ex) def print_hello():
+#            print("Hello")
+
+
+# 2. 함수의 역할 + 하나의 함수에 유사한 역할을 하는 코드만 포함 + 하나의 함수는 한가지 기능만 명확히 정의
+# ex) def add_value(x,y):
+#         return x+y
+
+
+# 3. 함수를 만들어야 하는 경우 + 공통적으로 사용되는 코드느 함수로 생성 + 복잡한 로직이 사용되는 경우 식별 가능함 이름의 함수 생성
+
+
+# ** 함수의 종류 **
+# 1. 내장함수(Built-in function) + python에서 내부적으로 기본적으로 제공하는 함수  ex) print, len, type, format, list, tuple....
+
+# 2. 외장함수(Library or Module) + Library: 다른사람이 개발한 코드 묶음 + import문을 통해서 라이브러리 모듈제공(interpreter)
+#   ex) import pandas as pd
+#           df_data = pd.read_excdl("path")
+
+# 3. 사용자정의함수 + 개발자(나)가 직접 만들어서 사용하는 함수
+
+
+# ** 함수 이름 규칙 **
+# - snake_case사용
+
+
+# ** 함수 정의 **
+# 1. 기본함수 문법
+# def 함수명(parameter1, parameter2, ...):
+#     실행문
+#     return 반환값
+
+# 2. 함수 정의시 "def" 키워드 사용
+# 3. 인자(parameter) 정의: 함수 입력값
+# 4. return: 함수종료의미
+# 5. return 반환값: 함수종료+ 호출문 반환값 전달(tuple)
+# 6. 함수종료; 1. return, 2, 들여쓰기 끝
+# 7. paremeter와 return은 생략가능(입력과 반환이 없는 함수도 존재)
+
+
+# ** 함수 실습 **
+# 1.함수정의
+
+
+def sum_two_value(x, y,):
+    n = x + y
+    print(n)
+    return n
+
+
+# 함수호출
+result = sum_two_value(5, 10)
+print(result)
+
+
+# 3.인자
+# - 함수에 전달되는 입력값
+# - 함수 정의문과 호출문의 parameter 갯수가 동일해야함
+# - parameter로 int, str, float, bool, list 등 사용가능
+# - 심지어 사죵자 정의 함수를 paramerter로 전달 가능
+# - parameter값 2개 이상사용시 정의된 순서대로 전달해야함
+
+
+def sub_two_value(x:int,y:int):
+    n = x-y
+    return n
+a, b = 15, 20
+num = sub_two_value(a,b)
+print(num)
+
+
+# 4.Default parameter(오른쪽부터시작한다)
+# - 함수호출시 parameter를 전달 받지 못한경우 기본값 사용
+
+# 가능
+# def test(a,b,c=3):
+
+# def test(a,b=2,c=3):
+
+# def test(a=1,b=2,c=3):
+
+# 불가능
+# def test(a=1,b,c):
+
+# def test(a,b=2,c):
+
+# def test(a=1,b=2,c):
+
+# 5. return
+# - 기본적으로 함수 종료 의미
+# - return 반환값: 함수 호출문으로 값 전달(tuple type)
+# - return만 사용하면 함수호출문으로 None값 전달
+# - return이 이벗는 경우 들여쓰기종료를 함수 종료로 간주
+# - return문 다음에 오는 코드는 실행 안됨(Error x)
+
+
+# def soju_yn(age):
+#     if age >= 20:
+#         return 1
+#     else:
+#         return 0
+#
+# age = int(input("나이: "))
+# result = soju_yn(age)
+# if result == 1:
+#     print("술 사도 됨")
+# elif result == 0:
+#     print("술 사면 안됨")
+
+
+# 6.변수의 범위
+# - 변수가 참조 가능한 코드상의 범위를 명시
+# - 함수내의 변수는 자신이 속한 코드 블록이 종료되면 소멸
+# - 이렇게 특정 코드 블록에서 선언된 변수를 지역변수
+# - 반대로 가장 상단에 전의 되어 프로그램 종료전까지 유지되는 변수를 전역변수
+# - 같은 이름의 지역변수와 전역변수 존재하는경우 가까운변수(지역변수)의 우선 순위가 높음
+
+num1 = 10
+num2 = 20
+
+def test(num1, num2):
+    print(num1, num2)
+    return
+test (30,40)
+print(num1, num2)
+
+# 함수내에서 함수 밖의 전역변수를 변경하고 싶은 경우
+#   1. return 반환값사용
+a = 1
+print(a)
+def vartest(a):
+    a = a+1
+    return a
+a = vartest(3)
+print(a)
+
+
+#   2. global 키워드(**절대 사용 금지**)
+a = 1
+print(a)
+def vartest():
+    global a
+    a = a+1
+a = vartest(3)
+print(a)
+
+
+# 7.variable length parameter(가변길이인자)
+# - 전달되는 parameter의 개수가 고정적이지 않은경우
+# - print(), format()
+#   ex) print("Hi"), print("Hi, "Hello")
+
+print("="*50)
+
+# 1) *args: tuple type
+
+def test(*args):
+    for item in args:
+        print(item)
+test(10, 20, 30)
+
+# 2) **kwargs: dict type
+def test2(**kwargs):
+    for key, value in kwargs.item():
+        print(key, value)
+test2(a=1, b=2, c=3)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
