@@ -66,6 +66,13 @@ print(result)
 doc = BeautifulSoup(result.text, "html.parser")
 
 # 3. 원하는 정보 수집
+
+
+# 숙제 날짜정보 수집, 출력
+reg_date = doc.select("span.num_date")[0].get_text()
+print(f"날짜: {reg_date}")
+
+
 #  - slect() -> 결과(list type)
 title = doc.select("h3.tit_view")
 print(title[0].get_text())
@@ -76,10 +83,14 @@ print(f"제목:{title[0].get_text()}")
 #   1. 선택자(id. class)
 #   2. 상위 관계(자식,자손)
 content_list = doc.select("div.article_view p")
+# content_list 안에 리스트의 형태로 <p>문단</p> 주르륵 들어있음
+
 
 content = ""
 for p in content_list:
     content += p.get_text()
+    # content = content + p.get_text()
+    # 1. content("문단1") = "" + 문단1
+    # 2. content("문단1문단2") = 문단1 + 문단2
+    # 3. content("문단1문단2문단3") = 문단1문단2 + 문단3
 print(f"본문: {content}")
-
-# 숙제 날짜정보 수집, 출력
