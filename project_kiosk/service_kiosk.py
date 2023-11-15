@@ -1,31 +1,23 @@
 # 키오스크 기능들
-# 사용자 메뉴 선택
 
-# max_cnt = 메뉴별 갯수
-
-def user_choice(max_cnt, menu_type="sub"):   # sub대신 공백도 가능
+# 사용자 메뉴 선택 기능!
+#  1.메인메뉴 선택(1, 2, 3, 99)
+#  2.세부메뉴 선택(1~4 or 1~3)
+#    max_cnt : 메뉴별 갯수
+#    menu_type : main or sub
+def user_choice(max_cnt, menu_type):
     while True:
-        choice = int(input(">> 번호:"))
+        choice = int(input(">> 번호: "))
+        # main 메뉴에서 99를 입력하면 프로그램 종료!
         if choice == 99 and menu_type == "main":
             return choice
-        if (max_cnt>= choice >= 1):
+        # main or sub에서 메뉴 선택
+        if max_cnt >= choice >= 1:
             return choice
         else:
-            print("올바른 번호를 입력 하세요")
+            print("MSG: 올바른 번호를 입력하세요.")
 
-#메뉴 출력기능
+
+# 메뉴 출력 기능!
 def show_menu():
-    for i, menu in enumerate(main_name.values()):
-            print(f"□  {i+1}.{menu}")
-
-        for key, value in drink_name.items():
-           print(f"● {key}.{value}({drink_price[key]}원)")
-
-        for i, value in enumerate(bakery_name.values()):
-            print(f"● {i+1}.{value}({bakery_price[i+1]}원)")
-
-        for i in range(len(coffee_name)):
-            print(f"● {i+1}.{coffee_name[i+1]}({coffee_price[i+1]}원)")
-
-        for i in range(len(bakery_name)):
-            print(f"● {i+1}.{bakery_name[i+1]}({bakery_prise[i+1]}원)")
+    pass
