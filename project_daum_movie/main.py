@@ -12,6 +12,7 @@
 
 # ** Selenium
 
+from datetime import datetime, timedelta
 import math
 import re
 import time
@@ -28,7 +29,7 @@ options.add_experimental_option("detach", True)
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
 # 2. url접속
-url = "https://movie.daum.net/moviedb/grade?movieId=165591"
+url = "https://movie.daum.net/moviedb/grade?movieId=169137"
 driver.get(url)
 time.sleep(2)
 
@@ -72,4 +73,34 @@ for i in range(click_cnt):
 # 8. 전체소스코드 가져오기
 doc_html = driver.page_source
 doc = BeautifulSoup(doc_html, "html.parser")
-review_list = doc.select("")
+review_list = doc.select("ul.list_comment > li")
+print(f"전체리뷰 : {len(review_list)}건")
+
+# item :리뷰 1건(평점, 리뷰, 작성자, 작성일자)
+for item in review_list:
+    print("="*100)
+    review_score = item.select("div.ratings")[0].get_text()
+    print(f" - 평점: {review_score}")
+
+    review_content = item.select("p.desc_txt")[0].get_text()
+    # \n : 한줄 개행 -> \n 제거
+    review_content = re.sub("\n", " ", review_content)
+    print(f" - 리뷰: {review_content}")
+
+    review_writer = item.select("a.link_nick > span")[1].get_text()
+    print(f" - 작성자: {review_writer}")
+
+    review_date = item.select("span.txt_date")[0].get_text()
+    #24시간 이내에 작성된 리뷰의 날짜는 ~시간전으로 표기 -> (20xx. xx. xx 로 바꾸기)
+    # 1. ~시간전 으로 적힌 날짜 찾기
+    if len(review_date) < 7:
+        # 2. "20시간" -> 숫자만 추출
+        reg_hour = int(re.sub(r"[^~0-9]", "", review_date))
+        # 3. 등록일자 = 현재시간 - 20
+        # print(f"{datetime.now()}")
+        review_date = datetime.now() - timedelta(hours=reg_hour)
+        # print(review_date)
+        # 4. 계산된 등록일자 날짜 포맷 변경(다음 영화 리뷰 날짜포맷)
+        review_date = review_date.strftime("%Y. %m. %d. %H:%M")
+
+    print(f" - 날짜: {review_date}")
