@@ -1,15 +1,18 @@
 USE SIMPLE;
 
-# 다음영화리뷰Table
+# 다음영화리뷰 Table
 CREATE TABLE `tbl_review` (
 	`no` INT(10) NOT NULL AUTO_INCREMENT,
 	`title` VARCHAR(100) NOT NULL,
-	`review` VARCHAR(100),
+	`review` VARCHAR(500),
 	`score` INT(10) NOT NULL DEFAULT '0',
 	`writer` VARCHAR(50) NULL,
-	`reg_data` VARCHAR(50) NOT NULL,
+	`reg_date` VARCHAR(50) NOT NULL,
 	PRIMARY KEY (`no`) USING BTREE
 )
 COMMENT=' 다음영화 리뷰'
 AUTO_INCREMENT=1
 ;
+# 표를 초기화
+USE SIMPLE:tbl_review
+TRUNCATE tbl_review;

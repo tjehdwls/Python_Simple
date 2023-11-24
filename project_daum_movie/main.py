@@ -12,6 +12,8 @@
 
 # ** Selenium
 
+from db.movie_dao import add_review
+
 from datetime import datetime, timedelta
 import math
 import re
@@ -104,3 +106,13 @@ for item in review_list:
         review_date = review_date.strftime("%Y. %m. %d. %H:%M")
 
     print(f" - 날짜: {review_date}")
+
+    # Maria DB 저장(제목, 리뷰, 평점, 작성자, 작성일자)
+    data = {
+        "title": movie_title,
+        "review": review_content,
+        "score": review_score,
+        "writer": review_writer,
+        "reg_date": review_date
+    }
+    add_review(data)
