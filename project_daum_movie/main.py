@@ -31,7 +31,7 @@ options.add_experimental_option("detach", True)
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
 # 2. url접속
-url = "https://movie.daum.net/moviedb/grade?movieId=169137"
+url = "https://movie.daum.net/moviedb/grade?movieId=146084"
 driver.get(url)
 time.sleep(2)
 
@@ -92,18 +92,43 @@ for item in review_list:
     review_writer = item.select("a.link_nick > span")[1].get_text()
     print(f" - 작성자: {review_writer}")
 
+    # 다음 영화 리뷰 날짜 표시방법
+    # 1. "조금 전"
+    # 2. "~분 전"
+    # 3. "~시간 전"
+    # 4. "20XX.XX.XX. XX:XX"
     review_date = item.select("span.txt_date")[0].get_text()
-    #24시간 이내에 작성된 리뷰의 날짜는 ~시간전으로 표기 -> (20xx. xx. xx 로 바꾸기)
-    # 1. ~시간전 으로 적힌 날짜 찾기
-    if len(review_date) < 7:
-        # 2. "20시간" -> 숫자만 추출
-        reg_hour = int(re.sub(r"[^~0-9]", "", review_date))
-        # 3. 등록일자 = 현재시간 - 20
-        # print(f"{datetime.now()}")
-        review_date = datetime.now() - timedelta(hours=reg_hour)
-        # print(review_date)
-        # 4. 계산된 등록일자 날짜 포맷 변경(다음 영화 리뷰 날짜포맷)
+
+    if review_date == "조금전":
+        review_date = datetime.now() - timedelta(seconds=59)
         review_date = review_date.strftime("%Y. %m. %d. %H:%M")
+    elif review_date [-2:] == "분전":
+        # 1분전~59분전 -> "분전"
+        reg_minute = int(re.sub(r"[^~0-9]", "", review_date))
+        review_date = datetime.now() - timedelta(minutes=reg_minute)
+        review_date = review_date.strftime("%Y. %m. %d. %H:%M")
+    elif review_date[-3:] == "시간전":
+        # 1시간전~23시간전 -> "시간전"
+        reg_hour = int(re.sub(r"[^~0-9]", "", review_date))
+        review_date = datetime.now() - timedelta(hours=reg_hour)
+        review_date = review_date.strftime("%Y. %m. %d. %H:%M")
+
+
+
+    # #24시간 이내에 작성된 리뷰의 날짜는 ~시간전으로 표기 -> (20xx. xx. xx 로 바꾸기)
+    # # 1. ~시간전 으로 적힌 날짜 찾기
+    # if len(review_date) < 7:
+    #     # 2. "20시간" -> 숫자만 추출
+    #     reg_hour = int(re.sub(r"[^~0-9]", "", review_date))
+    #     # 3. 등록일자 = 현재시간 - 20
+    #     # print(f"{datetime.now()}")
+    #     review_date = datetime.now() - timedelta(hours=reg_hour)
+    #     # print(review_date)
+    #     # 4. 계산된 등록일자 날짜 포맷 변경(다음 영화 리뷰 날짜포맷)
+    #     review_date = review_date.strftime("%Y. %m. %d. %H:%M")
+
+
+
 
     print(f" - 날짜: {review_date}")
 
