@@ -1,3 +1,8 @@
+# TODO : 1. 스케쥴링
+#        2. 리뷰 중복 체크(중복 수집X)
+#        3. DB에 저장 된 데이터 Excel 다운로드
+#        4. DB에 저장 된 데이터 -> 데이터 분석
+#        5. DB에 저장된 데이터 -> WordCloud 시각화
 
 
 from collect.collect_daum_moive_review import review_collector
