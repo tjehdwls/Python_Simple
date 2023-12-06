@@ -6,6 +6,10 @@
 
 
 from collect.collect_daum_movie_review import review_collector
+# from apscheduler.schedulers.blocking import Block
+
+
+
 from db.movie_dao import get_last_review
 
 def main():
@@ -34,7 +38,19 @@ def main():
     else:
         lsat_date = int(lsat_date["int_regdate"])
 
-    review_collector(movie_code, lsat_date)
+
+
+
+    # scheduler = BlockingSchduler()
+    # scheduler.add_job(review_collector,
+    #                   args=[movie_code],
+    #                   trigger-"cron",
+    #                   hour="12",
+    #                   minute="0")
+    #
+    # scheduler.start()
+
+    review_collector(movie_code, lsat_date) # 삭제
 
 if __name__ == "__main__":
     main()
